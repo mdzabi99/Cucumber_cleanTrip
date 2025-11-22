@@ -1,0 +1,30 @@
+package UTILITIES;
+
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+
+public class Helper_Wait {
+
+	
+	public WebDriver driver;
+	
+	public Helper_Wait(WebDriver driver)
+	{
+		
+		this.driver=driver;
+	}
+	
+	
+	public void WaitForElement(WebElement Element,Duration timeDuration)
+	{
+		WebDriverWait wait=new WebDriverWait(driver,timeDuration);
+		wait.until(ExpectedConditions.visibilityOf(Element));
+	}
+	
+}

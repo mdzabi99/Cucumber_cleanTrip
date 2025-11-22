@@ -1,6 +1,7 @@
 package PageObjects;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,13 +20,16 @@ public class LoginPage  extends BaseClass {
 	
 	@FindBy(xpath = "//*[name()='svg'  and @data-testid='closeIcon']") WebElement LoginPopUp;
 	
-	@FindBy(xpath = "(//p[@cursor='pointer'])[1]") WebElement offerButton;
-	
-	@FindBy(xpath="(//ul//li//a)[4]") WebElement HotelFAQ_Link;
+	@FindBy(xpath = "//input[contains(@placeholder,'Where from?')]" ) WebElement FromCity_InputBox;
 	
 	
+	@FindBy(xpath = "//div[@class='mr-1 o-hidden']//p") List<WebElement> SourceCitys;
 	
+	@FindBy(xpath = "//*[@placeholder='Where to?']") WebElement ToCity_InputBox;
 	
+	@FindBy(xpath = "//p[contains(@class,'tt-ellipsis o-hidden fs-14 fw-500')]") List<WebElement> Dest_Citys;
+	
+	@FindBy(xpath = "(//button)[2]") WebElement searchflight;
 	
 	public void LoginPOPUP() throws InterruptedException 
 	{
@@ -33,31 +37,60 @@ public class LoginPage  extends BaseClass {
 		Thread.sleep(2000);
 	}
 	
-	
-	public void ClickOffer() throws InterruptedException
+	public void FromCity_Box()
 	{
-		WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(30));
+		FromCity_InputBox.click();
+	}
+	
+	
+	public void  FromCity()
+	{
+		
+		for(WebElement city:SourceCitys)
+		{
+			//System.out.println(city.getText().toString());
 			
+		        String reqCity=	city.getText().toString();
+			     if(reqCity.contains("Bengaluru"))
+			     {
+				         city.click();
+				         break;
+			     }
+		}
 		
-	WebElement OfferBtn=	wait.until(ExpectedConditions.visibilityOf(offerButton));
-		
-		
-	OfferBtn.click();
-		Thread.sleep(2000);
 	}
 	
-	public void Click_HotelFAQ_Link() throws InterruptedException
+	
+	
+	
+	public void ToCity_Box()
 	{
-		HotelFAQ_Link.click();
-		Thread.sleep(2000);
+		ToCity_InputBox.click();
 	}
 	
-	public String HomePageTile()
+	public void ToCity()
 	{
-		driver.navigate().back();
-		String Tilte=driver.getTitle();
+
 		
-		return Tilte;
+		for(WebElement city:Dest_Citys)
+		{
+			  /* 	System.out.println(city.getText().toString());*/
+			
+		     String reqCity=	city.getText().toString();
+			     if(reqCity.contains("New Delhi"))
+			     {
+				         city.click();
+				         break;
+			     }
+		}
 	}
+	
+	public void searchButton()
+	{
+		wait.WaitForElement(searchflight,Duration.ofSeconds(30));
+		
+		searchflight.click();
+	}
+	
 	
 }
